@@ -1,0 +1,31 @@
+{
+  "name": "sdkr-workspace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsdown && node ./scripts/build-nuxt-dts.mjs",
+    "prepack": "pnpm build",
+    "dev": "pnpm dev:prepare && pnpm --dir packages/nuxt/playground dev",
+    "dev:build": "pnpm dev:prepare && pnpm --dir packages/nuxt/playground build",
+    "dev:prepare": "pnpm build && pnpm --dir packages/nuxt/playground exec nuxt prepare",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:types": "tsc --project packages/nuxt/tsconfig.json --noEmit && pnpm --dir packages/nuxt/playground exec vue-tsc --noEmit"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "catalog:",
+    "@nuxt/eslint-config": "catalog:",
+    "@nuxt/schema": "catalog:",
+    "@nuxt/test-utils": "catalog:",
+    "@types/node": "catalog:",
+    "changelogen": "catalog:",
+    "eslint": "catalog:",
+    "nuxt": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}

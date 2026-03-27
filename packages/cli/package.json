@@ -1,0 +1,16 @@
+{
+  "name": "@heyintech/sdkr-cli",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.mjs"
+  },
+  "main": "./dist/index.mjs",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsdown"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "name": "@heyintech/sdkr",
+  "version": "0.0.1",
+  "description": "Nuxt module for typed API collections and the calla compile-time macro",
+  "repository": "heyintech/sdkr",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "sdkr": "./bin/sdkr.mjs"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/module.d.ts",
+      "import": "./dist/module.mjs"
+    },
+    "./calla": {
+      "types": "./dist/calla.d.ts",
+      "import": "./dist/calla.mjs"
+    }
+  },
+  "main": "./dist/module.mjs",
+  "types": "./dist/module.d.ts",
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "scripts": {
+    "build": "tsdown && node ../../scripts/build-nuxt-dts.mjs",
+    "prepack": "tsdown && node ../../scripts/build-nuxt-dts.mjs"
+  },
+  "peerDependencies": {
+    "nuxt": "^4.0.0"
+  },
+  "dependencies": {
+    "@nuxt/kit": "catalog:",
+    "@vue/compiler-sfc": "catalog:",
+    "jiti": "catalog:",
+    "oxc-parser": "catalog:",
+    "pathe": "catalog:",
+    "tinyglobby": "catalog:",
+    "ufo": "catalog:"
+  },
+  "devDependencies": {
+    "@nuxt/schema": "catalog:",
+    "h3": "catalog:",
+    "nitro": "catalog:",
+    "nuxt": "catalog:",
+    "ofetch": "catalog:",
+    "vite": "catalog:",
+    "vue": "catalog:"
+  }
+}
