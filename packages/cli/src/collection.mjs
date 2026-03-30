@@ -1,4 +1,4 @@
-import { lstat, mkdir, readdir, writeFile } from "node:fs/promises";
+import { lstat, mkdir, readdir, writeFile } from 'node:fs/promises'
 import {
   basename,
   dirname,
@@ -6,9 +6,9 @@ import {
   relative,
   resolve,
   sep,
-} from "node:path";
+} from 'node:path'
 
-const TYPESCRIPT_FILE_RE = /\.[cm]?[jt]sx?$/i;
+const TYPESCRIPT_FILE_RE = /\.[cm]?[jt]sx?$/i
 
 /**
  * Removes trailing path separators from a string.
@@ -17,7 +17,7 @@ const TYPESCRIPT_FILE_RE = /\.[cm]?[jt]sx?$/i;
  * @returns {string} - The trimmed path string with no trailing separators
  */
 function trimTrailingSeparators(value) {
-  return value.replace(/[\\/]+$/, "");
+  return value.replace(/[\\/]+$/, '')
 }
 
 /**
@@ -28,10 +28,10 @@ function trimTrailingSeparators(value) {
  */
 function isOutsideRoot(relativePath) {
   return (
-    relativePath === ".." ||
-    relativePath.startsWith(`..${sep}`) ||
-    isAbsolute(relativePath)
-  );
+    relativePath === '..'
+    || relativePath.startsWith(`..${sep}`)
+    || isAbsolute(relativePath)
+  )
 }
 
 /**
@@ -44,18 +44,18 @@ function isOutsideRoot(relativePath) {
 function toCollectionFileContent(name, clientPrefix) {
   return [
     `import { defineApiCollection } from '@heyintech/sdkr-nuxt'`,
-    "",
-    "export default defineApiCollection({",
+    '',
+    'export default defineApiCollection({',
     `  name: ${JSON.stringify(name)},`,
-    "  routeGroups: [",
-    "    {",
+    '  routeGroups: [',
+    '    {',
     `      dir: 'runtime/server',`,
     `      clientPrefix: ${JSON.stringify(clientPrefix)},`,
-    "    },",
-    "  ],",
-    "})",
-    "",
-  ].join("\n");
+    '    },',
+    '  ],',
+    '})',
+    '',
+  ].join('\n')
 }
 
 /**
@@ -66,26 +66,26 @@ function toCollectionFileContent(name, clientPrefix) {
 function toExampleHandlerContent() {
   return [
     `import { getQuery } from 'h3'`,
-    "",
-    "export interface CallaMeta {",
-    "  query: {",
-    "    name?: string",
-    "  }",
-    "  res: {",
-    "    message: string",
-    "  }",
-    "}",
-    "",
-    "export default defineEventHandler((event) => {",
-    "  const query = getQuery(event)",
+    '',
+    'export interface CallaMeta {',
+    '  query: {',
+    '    name?: string',
+    '  }',
+    '  res: {',
+    '    message: string',
+    '  }',
+    '}',
+    '',
+    'export default defineEventHandler((event) => {',
+    '  const query = getQuery(event)',
     `  const name = typeof query.name === 'string' ? query.name : 'sdkr'`,
-    "",
-    "  return {",
-    "    message: `Hello, ${name}!`,",
+    '',
+    '  return {',
+    '    message: `Hello, ${name}!`,',
     `  } satisfies CallaMeta['res']`,
-    "})",
-    "",
-  ].join("\n");
+    '})',
+    '',
+  ].join('\n')
 }
 
 /**
@@ -97,27 +97,27 @@ function toExampleHandlerContent() {
  *                 points to root, or has a TypeScript file extension
  */
 export function deriveCollectionName(targetPath) {
-  const normalizedPath = trimTrailingSeparators(targetPath.trim());
-  const name = basename(normalizedPath);
+  const normalizedPath = trimTrailingSeparators(targetPath.trim())
+  const name = basename(normalizedPath)
 
-  if (!name || name === "." || name === sep) {
-    throw new Error("[sdkr] Target path must end with a directory name.");
+  if (!name || name === '.' || name === sep) {
+    throw new Error('[sdkr] Target path must end with a directory name.')
   }
 
   if (TYPESCRIPT_FILE_RE.test(name)) {
     throw new Error(
-      "[sdkr] Target path must be a directory path, not a TypeScript file path.",
-    );
+      '[sdkr] Target path must be a directory path, not a TypeScript file path.',
+    )
   }
 
-  return name;
+  return name
 }
 
 /**
  * Resolves and validates the target directory for a collection scaffold operation.
  * Ensures the path is valid, relative to project root, and accessible.
  * @param {string} targetPath - The user-provided directory path (project-relative)
- * @param {string} [rootDir=process.cwd()] - The root directory of the Nuxt app/project
+ * @param {string} [rootDir] - The root directory of the Nuxt app/project
  * @returns {{name: string, resolvedTarget: string, relativeTarget: string}} - Object containing:
  *   - name: The extracted collection name
  *   - resolvedTarget: Absolute filesystem path to target directory
@@ -125,32 +125,32 @@ export function deriveCollectionName(targetPath) {
  * @throws {Error} If the path is missing, absolute (should be relative), or escapes outside root
  */
 export function resolveTargetDirectory(targetPath, rootDir = process.cwd()) {
-  const trimmedTargetPath = targetPath.trim();
+  const trimmedTargetPath = targetPath.trim()
 
   if (!trimmedTargetPath) {
     throw new Error(
-      "[sdkr] Missing target path. Pass a project-relative directory path.",
-    );
+      '[sdkr] Missing target path. Pass a project-relative directory path.',
+    )
   }
 
   if (isAbsolute(trimmedTargetPath)) {
     throw new Error(
-      "[sdkr] Target path must be relative to the Nuxt app root.",
-    );
+      '[sdkr] Target path must be relative to the Nuxt app root.',
+    )
   }
 
-  const resolvedTarget = resolve(rootDir, trimmedTargetPath);
-  const relativeTarget = relative(rootDir, resolvedTarget);
+  const resolvedTarget = resolve(rootDir, trimmedTargetPath)
+  const relativeTarget = relative(rootDir, resolvedTarget)
 
   if (isOutsideRoot(relativeTarget)) {
-    throw new Error("[sdkr] Target path must stay inside the Nuxt app root.");
+    throw new Error('[sdkr] Target path must stay inside the Nuxt app root.')
   }
 
   return {
     name: deriveCollectionName(trimmedTargetPath),
     resolvedTarget,
-    relativeTarget: relativeTarget || ".",
-  };
+    relativeTarget: relativeTarget || '.',
+  }
 }
 
 /**
@@ -164,30 +164,31 @@ export function resolveTargetDirectory(targetPath, rootDir = process.cwd()) {
  */
 export async function assertTargetDirectoryIsWritable(targetDir, targetLabel) {
   try {
-    const stats = await lstat(targetDir);
+    const stats = await lstat(targetDir)
 
     if (!stats.isDirectory()) {
       throw new Error(
         `[sdkr] Target "${targetLabel}" already exists and is not a directory.`,
-      );
+      )
     }
 
-    const entries = await readdir(targetDir);
+    const entries = await readdir(targetDir)
     if (entries.length > 0) {
       throw new Error(
         `[sdkr] Target "${targetLabel}" already exists and is not empty.`,
-      );
+      )
     }
-  } catch (error) {
+  }
+  catch (error) {
     if (
-      error &&
-      typeof error === "object" &&
-      "code" in error &&
-      error.code === "ENOENT"
+      error
+      && typeof error === 'object'
+      && 'code' in error
+      && error.code === 'ENOENT'
     ) {
-      return;
+      return
     }
-    throw error;
+    throw error
   }
 }
 
@@ -200,23 +201,23 @@ export async function assertTargetDirectoryIsWritable(targetDir, targetLabel) {
 export function buildCollectionFiles({ name, clientPrefix, template }) {
   const files = [
     {
-      relativePath: "collection.ts",
+      relativePath: 'collection.ts',
       contents: toCollectionFileContent(name, clientPrefix),
     },
     {
-      relativePath: "runtime/server/.gitkeep",
-      contents: "",
+      relativePath: 'runtime/server/.gitkeep',
+      contents: '',
     },
-  ];
+  ]
 
-  if (template === "example") {
+  if (template === 'example') {
     files.push({
-      relativePath: "runtime/server/hello.get.ts",
+      relativePath: 'runtime/server/hello.get.ts',
       contents: toExampleHandlerContent(),
-    });
+    })
   }
 
-  return files;
+  return files
 }
 
 /**
@@ -236,30 +237,30 @@ export function buildCollectionFiles({ name, clientPrefix, template }) {
  */
 export async function scaffoldCollection({
   targetPath,
-  template = "minimal",
+  template = 'minimal',
   rootDir = process.cwd(),
 }) {
-  const target = resolveTargetDirectory(targetPath, rootDir);
-  const clientPrefix = `/${target.name}`;
+  const target = resolveTargetDirectory(targetPath, rootDir)
+  const clientPrefix = `/${target.name}`
   const files = buildCollectionFiles({
     name: target.name,
     clientPrefix,
     template,
-  });
+  })
 
   await assertTargetDirectoryIsWritable(
     target.resolvedTarget,
     target.relativeTarget,
-  );
-  await mkdir(target.resolvedTarget, { recursive: true });
+  )
+  await mkdir(target.resolvedTarget, { recursive: true })
 
-  const createdFiles = [];
+  const createdFiles = []
 
   for (const file of files) {
-    const absolutePath = resolve(target.resolvedTarget, file.relativePath);
-    await mkdir(dirname(absolutePath), { recursive: true });
-    await writeFile(absolutePath, file.contents, "utf8");
-    createdFiles.push(relative(rootDir, absolutePath) || ".");
+    const absolutePath = resolve(target.resolvedTarget, file.relativePath)
+    await mkdir(dirname(absolutePath), { recursive: true })
+    await writeFile(absolutePath, file.contents, 'utf8')
+    createdFiles.push(relative(rootDir, absolutePath) || '.')
   }
 
   return {
@@ -268,5 +269,5 @@ export async function scaffoldCollection({
     name: target.name,
     targetPath: target.relativeTarget,
     template,
-  };
+  }
 }
