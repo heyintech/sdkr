@@ -33,6 +33,15 @@ describe('sdkr cli', () => {
     expect(packageJson.files).toContain('bin')
   })
 
+  it('builds dist during prepack for publish on a fresh runner', async () => {
+    const packageJson = JSON.parse(await readFile(packageJsonPath, 'utf8'))
+
+    expect(packageJson.scripts).toMatchObject({
+      build: 'tsdown',
+      prepack: 'pnpm build',
+    })
+  })
+
   it('creates the minimal collection scaffold', async () => {
     const rootDir = await createTempRoot()
     const { stdout } = await execFileAsync(
