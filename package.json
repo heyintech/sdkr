@@ -1,10 +1,11 @@
 {
-  "name": "sdkr-workspace",
+  "name": "@heyintech/sdkr",
   "private": true,
   "type": "module",
   "version": "0.0.1",
   "repository": "heyintech/sdkr",
   "license": "MIT",
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "build": "tsdown && node ./scripts/build-nuxt-dts.mjs",
     "prepack": "pnpm build",

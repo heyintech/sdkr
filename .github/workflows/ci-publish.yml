@@ -18,11 +18,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 24
           cache: pnpm
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -50,16 +50,23 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 24
           cache: pnpm
+          registry-url: https://registry.npmjs.org/
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Enable corepack
+        run: corepack enable
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Configure npm for Trusted Publishing
+        run: |
+          mkdir -p ~/.npm
+          cat > ~/.npmrc <<'EOF'
+          registry=https://registry.npmjs.org/
+          //registry.npmjs.org/:_authToken=${{ secrets.NPM_PUBLISH_TOKEN }}
+          EOF
+
       - name: Publish nuxt + cli packages with pnpm workspaces
-        run: pnpm -r --filter "@heyintech/sdkr-nuxt" --filter "@heyintech/sdkr-cli" publish --access public --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm -r --filter "@heyintech/sdkr-nuxt" --filter "@heyintech/sdkr-cli" publish --access public

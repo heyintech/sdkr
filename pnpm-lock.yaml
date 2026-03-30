@@ -133,6 +133,9 @@ importers:
 
   packages/nuxt:
     dependencies:
+      '@heyintech/sdkr-cli':
+        specifier: workspace:*
+        version: link:../cli
       '@nuxt/kit':
         specifier: 'catalog:'
         version: 4.4.2(magicast@0.5.2)
