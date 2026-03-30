@@ -1,6 +1,6 @@
 {
   "name": "@heyintech/sdkr-nuxt",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Nuxt module for typed API collections and the calla compile-time macro",
   "repository": {
     "type": "git",
