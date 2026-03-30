@@ -43,7 +43,7 @@ function isOutsideRoot(relativePath) {
  */
 function toCollectionFileContent(name, clientPrefix) {
   return [
-    `import { defineApiCollection } from '@heyintech/sdkr'`,
+    `import { defineApiCollection } from '@heyintech/sdkr-nuxt'`,
     "",
     "export default defineApiCollection({",
     `  name: ${JSON.stringify(name)},`,

@@ -268,14 +268,16 @@ This verifies:
 
 ## Tests
 
-Current tests cover three narrow areas:
+Current tests cover four narrow areas:
 
-- `test/basic.test.ts`
+- `packages/nuxt/test/basic.test.ts`
   Nuxt app smoke test
-- `test/collection-ref.test.ts`
+- `packages/nuxt/test/collection-ref.test.ts`
   collection reference resolution rules
-- `test/collection-macro.test.ts`
+- `packages/nuxt/test/collection-macro.test.ts`
   optional `defineApiCollection` erase utility
+- `packages/cli/test/cli.test.ts`
+  CLI scaffold generation behavior
 
 What is still missing:
 
@@ -303,8 +305,10 @@ What is still missing:
   AST-based macro transforms
 - `packages/nuxt/playground/`
   local manual verification app
-- `test/`
-  focused smoke and unit tests
+- `packages/nuxt/test/`
+  Nuxt module smoke and unit tests
+- `packages/cli/test/`
+  CLI behavior tests
 
 ## Development commands
 

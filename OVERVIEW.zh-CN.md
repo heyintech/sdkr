@@ -255,14 +255,16 @@ English version: [OVERVIEW.md](./OVERVIEW.md)
 
 ## 测试现状
 
-当前测试主要覆盖三块：
+当前测试主要覆盖四块：
 
-- `test/basic.test.ts`
+- `packages/nuxt/test/basic.test.ts`
   Nuxt 应用最小烟雾测试
-- `test/collection-ref.test.ts`
+- `packages/nuxt/test/collection-ref.test.ts`
   collection 引用解析规则
-- `test/collection-macro.test.ts`
+- `packages/nuxt/test/collection-macro.test.ts`
   可选的 `defineApiCollection` 擦除工具
+- `packages/cli/test/cli.test.ts`
+  CLI scaffold 生成行为
 
 还缺的部分：
 
@@ -290,8 +292,10 @@ English version: [OVERVIEW.md](./OVERVIEW.md)
   AST 级宏改写逻辑
 - `packages/nuxt/playground/`
   本地联调用例
-- `test/`
-  烟雾测试与局部单测
+- `packages/nuxt/test/`
+  Nuxt 模块烟雾测试与局部单测
+- `packages/cli/test/`
+  CLI 行为测试
 
 ## 常用开发命令
 

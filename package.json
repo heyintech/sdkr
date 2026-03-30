@@ -2,6 +2,9 @@
   "name": "sdkr-workspace",
   "private": true,
   "type": "module",
+  "version": "0.0.1",
+  "repository": "heyintech/sdkr",
+  "license": "MIT",
   "scripts": {
     "build": "tsdown && node ./scripts/build-nuxt-dts.mjs",
     "prepack": "pnpm build",
@@ -26,6 +29,7 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",
+    "bumpp": "catalog:",
     "vue-tsc": "catalog:"
   }
 }

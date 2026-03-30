@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['@heyintech/sdkr'],
+  modules: ['@heyintech/sdkr-nuxt'],
   devtools: { enabled: true },
   compatibilityDate: 'latest',
   sdkr: {
