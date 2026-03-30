@@ -34,10 +34,14 @@ jobs:
         run: pnpm test && pnpm --filter "@heyintech/sdkr-cli" build && pnpm --filter "@heyintech/sdkr-nuxt" build
 
       - name: Bump version using bumpp (patch) for nuxt + cli packages
+        id: bump
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           npx bumpp patch packages/nuxt/package.json packages/cli/package.json --tag --message "chore(release): v%s"
+          TAG="v$(node -e 'console.log(JSON.parse(require("node:fs").readFileSync("packages/cli/package.json", "utf8")).version)')"
+          git rev-parse "$TAG" >/dev/null 2>&1 || { echo "Expected release tag $TAG after bumpp."; exit 1; }
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           git push origin main --follow-tags
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -46,9 +50,8 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          TAG="$(git describe --tags --abbrev=0)"
           gh api \
             --method POST \
             repos/${{ github.repository }}/actions/workflows/publish.yml/dispatches \
             -f ref=main \
-            -f inputs[tag]="$TAG"
+            -f inputs[tag]="${{ steps.bump.outputs.tag }}"
