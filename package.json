@@ -3,7 +3,10 @@
   "private": true,
   "type": "module",
   "version": "0.0.1",
-  "repository": "heyintech/sdkr",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heyintech/sdkr"
+  },
   "license": "MIT",
   "packageManager": "pnpm@10.33.0",
   "scripts": {
