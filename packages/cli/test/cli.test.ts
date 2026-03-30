@@ -8,6 +8,7 @@ import { afterEach, describe, expect, it } from 'vitest'
 
 const execFileAsync = promisify(execFile)
 const cliPath = fileURLToPath(new URL('../src/sdkr.mjs', import.meta.url))
+const packageJsonPath = fileURLToPath(new URL('../package.json', import.meta.url))
 const tempDirs: string[] = []
 
 async function createTempRoot() {
@@ -23,6 +24,15 @@ afterEach(async () => {
 })
 
 describe('sdkr cli', () => {
+  it('uses a stable bin entry that exists before build', async () => {
+    const packageJson = JSON.parse(await readFile(packageJsonPath, 'utf8'))
+
+    expect(packageJson.bin).toEqual({
+      sdkr: './bin/sdkr.mjs',
+    })
+    expect(packageJson.files).toContain('bin')
+  })
+
   it('creates the minimal collection scaffold', async () => {
     const rootDir = await createTempRoot()
     const { stdout } = await execFileAsync(

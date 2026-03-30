@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "type": "module",
   "bin": {
-    "sdkr": "./dist/sdkr.mjs"
+    "sdkr": "./bin/sdkr.mjs"
   },
   "files": [
+    "bin",
     "dist"
   ],
   "exports": {
