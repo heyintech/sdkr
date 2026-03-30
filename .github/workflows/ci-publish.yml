@@ -38,9 +38,9 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          npx bumpp patch packages/nuxt/package.json packages/cli/package.json --tag --message "chore(release): v%s"
-          TAG="v$(node -e 'console.log(JSON.parse(require("node:fs").readFileSync("packages/cli/package.json", "utf8")).version)')"
-          git rev-parse "$TAG" >/dev/null 2>&1 || { echo "Expected release tag $TAG after bumpp."; exit 1; }
+          npx bumpp patch packages/nuxt/package.json packages/cli/package.json --tag --message "chore(release): v%s" --yes --no-push
+          TAG="$(git tag --points-at HEAD --sort=-creatordate | head -n 1)"
+          [ -n "$TAG" ] || { echo "Expected a release tag on HEAD after bumpp."; exit 1; }
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           git push origin main --follow-tags
         env:
