@@ -1,6 +1,12 @@
 name: Publish / npm
 
 on:
+  workflow_call:
+    inputs:
+      tag:
+        description: Git tag to publish
+        required: true
+        type: string
   workflow_dispatch:
     inputs:
       tag:
@@ -21,9 +27,9 @@ jobs:
       - name: Resolve publish ref
         id: publish-ref
         run: |
-          REF="${GITHUB_REF_NAME}"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            REF="${{ github.event.inputs.tag }}"
+          REF="${{ inputs.tag }}"
+          if [ -z "$REF" ]; then
+            REF="${GITHUB_REF_NAME}"
           fi
           echo "value=$REF" >> "$GITHUB_OUTPUT"
 
